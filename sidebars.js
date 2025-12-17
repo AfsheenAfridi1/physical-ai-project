@@ -1,10 +1,9 @@
-module.exports = {
+const sidebars = {
   tutorialSidebar: [
-    'intro',
     {
       type: 'category',
-      label: 'Chapters',
-      collapsed: false,
+      label: 'Book',
+      collapsible: true,
       items: [
         'chapter1',
         'chapter2',
@@ -18,5 +17,43 @@ module.exports = {
         'chapter10',
       ],
     },
+    {
+  type: 'category',
+  label: 'Spec Kit',
+  items: [
+    'spec/intro',
+    'spec/system',
+    'spec/rules',
+    'spec/architecture',
+
+  ],
+},
+ {
+      type: 'category',
+      label: 'System',
+      items: [
+        'spec/intro',
+        'rag/intro',
+        'auth/intro',
+        'cloud/intro',
+      ],
+    },
   ],
 };
+const tutorialSidebar = {
+  tutorialSidebar: [
+    {
+      type: 'category',
+      label: 'Chapters',
+      items: [
+        'getting-start/intro',
+        'ros2/intro',
+        'simulation/intro',
+        'nvidia-isaac/intro',
+        'vla/intro',
+      ],
+    },
+  ],
+};
+
+module.exports = sidebars;
