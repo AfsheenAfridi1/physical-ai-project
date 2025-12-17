@@ -6,5 +6,3 @@ google-generativeai
 pypdf
 python-docx
 PyJWT
-
-

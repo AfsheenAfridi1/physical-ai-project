@@ -21,15 +21,12 @@ app.add_middleware(
 
 security = HTTPBearer()
 
-# home test
 @app.get("/")
 def home():
     return {"message": "Backend OK 🚀"}
 
-# in-memory DB
 USERS_DB = {}
 
-# models
 class Signup(BaseModel):
     username: str
     background: str
@@ -38,9 +35,11 @@ class Login(BaseModel):
     username: str
 
 class Question(BaseModel):
+    message: str    
+
+class Chat(BaseModel):
     message: str
 
-# jwt helpers
 def create_token(username: str):
     payload = {
         "sub": username,
@@ -56,7 +55,6 @@ def verify_token(cred: HTTPAuthorizationCredentials = Depends(security)):
     except:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-# signup
 @app.post("/auth/signup")
 def signup(data: Signup):
     if data.username in USERS_DB:
@@ -64,14 +62,12 @@ def signup(data: Signup):
     USERS_DB[data.username] = {"background": data.background}
     return {"token": create_token(data.username)}
 
-# login
 @app.post("/auth/login")
 def login(data: Login):
     if data.username not in USERS_DB:
         raise HTTPException(status_code=404, detail="User not found")
     return {"token": create_token(data.username)}
 
-# get profile
 @app.get("/auth/profile")
 def profile(user=Depends(verify_token)):
     return {
@@ -79,15 +75,13 @@ def profile(user=Depends(verify_token)):
         "background": USERS_DB[user]["background"],
     }
 
-# protected chat test
 @app.post("/ask")
 def ask(q: Question, user=Depends(verify_token)):
     bg = USERS_DB[user]["background"]
     return {
-        "answer": f"""
-Hello {user} 👋
-Your background: {bg}
-
-Personalized RAG-ready response.
-"""
+        "answer": f"Hello {user} 👋\nYour background: {bg}"
     }
+
+@app.post("/chat")
+def chat(data: Chat):
+    return {"reply": f"You said: {data.message} 🤖"}
