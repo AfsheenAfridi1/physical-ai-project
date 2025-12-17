@@ -1,7 +1,7 @@
 fastapi
 uvicorn
-pydantic
 python-dotenv
-google-generativeai
 qdrant-client
-requests
+google-generativeai
+pypdf
+python-docx
